@@ -60,14 +60,14 @@ function module.newPosition(buttons: { Enum.KeyCode }, state: nil | { Enum.UserI
 
 	local id = HttpService:GenerateGUID()
 
-	local f
+	local folderId
 	local PostitionVector, DeltaVector
 	do
-		f = Instance.new("Folder", folderKeyCode)
-		f.Name = id
-		PostitionVector = Instance.new("Vector3Value", f)
+		folderId = Instance.new("Folder", folderKeyCode)
+		folderId.Name = id
+		PostitionVector = Instance.new("Vector3Value", folderId)
 		PostitionVector.Name = "Position"
-		DeltaVector = Instance.new("Vector3Value", f)
+		DeltaVector = Instance.new("Vector3Value", folderId)
 		DeltaVector.Name = "Delta"
 	end
 
