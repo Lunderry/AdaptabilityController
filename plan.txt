@@ -1,5 +1,0 @@
-git submodule add https://github.com/Lunderry/ChatCommand src
-git submodule add https://github.com/Lunderry/LerpSystem src
-git submodule add https://github.com/Lunderry/ConnectionMeta src
-git submodule add https://github.com/Lunderry/TweenMaster2 src
-git submodule add https://github.com/Lunderry/Vizcast src
