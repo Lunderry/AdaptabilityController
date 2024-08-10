@@ -102,8 +102,10 @@ function module.UnbindAction(id: string): ()
 	end
 end
 
-ConnectionMeta.AddDisconnect("ControlID", nil, function(v)
-	module.UnbindAction(v)
+task.defer(function()
+	ConnectionMeta.AddDisconnect("ControlID", nil, function(v)
+		module.UnbindAction(v)
+	end)
 end)
 
 return module
