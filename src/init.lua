@@ -6,6 +6,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local lib = script.lib
 --
 local ConnectionMeta = require(lib.ConnectionMeta)
+
+local Types = require(script.Types)
+
+export type Info = Types.Info
 --
 local folderKeyCode = Instance.new("Folder", ReplicatedStorage)
 folderKeyCode.Name = "KeyCode"
@@ -34,15 +38,16 @@ function module.newNormal(
 			return
 		end
 
+		local data = { KeyCode = inputObject.KeyCode, InputObject = inputObject, InputState = inputState }
 		if type(funct) == "table" then
 			local f, t = table.unpack(funct)
 			if type(t) == "table" then
-				f(table.unpack(t))
+				f(data, table.unpack(t))
 			else
-				f(t)
+				f(data, t)
 			end
 		else
-			funct()
+			funct(data)
 		end
 	end
 
