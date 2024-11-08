@@ -4,4 +4,5 @@ export type Info = {
 	InputState: Enum.UserInputState,
 }
 
+export type functData = (data: Info, ...any?) -> ()
 return nil

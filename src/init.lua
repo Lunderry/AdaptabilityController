@@ -19,13 +19,13 @@ local module = {}
 ---Use this if button not use delta or position
 ---@param buttons nil {Enum.KeyCode}
 ---@param state nil | {Enum.UserInputState}
----@param funct nil {any & {any}}
+---@param funct nil | (data: Types.Info) -> () | { ["1"]: (data: Types.Info, ...any?) -> (), ["2"]: any }
 ---@param createButton nil  boolean?
 ---@return any
 function module.newNormal(
 	buttons: { Enum.KeyCode },
 	state: nil | { Enum.UserInputState },
-	funct: any | { ["0"]: any, ["1"]: { any } | any },
+	funct: nil | Types.functData | { ["1"]: Types.functData, ["2"]: any },
 	createButton: boolean?
 ): string
 	state = if state == nil then { Enum.UserInputState.Begin } else state
@@ -60,7 +60,11 @@ end
 ---@param state nil | {Enum.UserInputState}
 ---@param funct any
 ---@return any
-function module.newPosition(buttons: { Enum.KeyCode }, state: nil | { Enum.UserInputState }, funct: any | nil): string
+function module.newPosition(
+	buttons: { Enum.KeyCode },
+	state: nil | { Enum.UserInputState },
+	funct: Types.functData | nil
+): string
 	state = if state == nil then { Enum.UserInputState.Begin } else state
 
 	local id = HttpService:GenerateGUID()
@@ -107,10 +111,8 @@ function module.UnbindAction(id: string): ()
 	end
 end
 
-task.defer(function()
-	ConnectionMeta.AddDisconnect("ControlID", nil, function(v)
-		module.UnbindAction(v)
-	end)
+ConnectionMeta.AddDisconnect("ControlID", nil, function(v)
+	module.UnbindAction(v)
 end)
 
 return module
