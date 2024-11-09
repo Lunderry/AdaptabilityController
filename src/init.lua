@@ -9,7 +9,8 @@ local ConnectionMeta = require(lib.ConnectionMeta)
 
 local Types = require(script.Types)
 
-export type Info = Types.Info
+export type InfoNormal = Types.InfoNormal
+export type InfoPosition = Types.InfoPosition
 --
 local folderKeyCode = Instance.new("Folder", ReplicatedStorage)
 folderKeyCode.Name = "KeyCode"
@@ -25,7 +26,7 @@ local module = {}
 function module.newNormal(
 	buttons: { Enum.KeyCode },
 	state: nil | { Enum.UserInputState },
-	funct: nil | Types.functData | { ["1"]: Types.functData, ["2"]: any },
+	funct: nil | Types.functData | { Types.functData & any },
 	createButton: boolean?
 ): string
 	state = if state == nil then { Enum.UserInputState.Begin } else state
@@ -41,12 +42,13 @@ function module.newNormal(
 		local data = { KeyCode = inputObject.KeyCode, InputObject = inputObject, InputState = inputState }
 		if type(funct) == "table" then
 			local f, t = table.unpack(funct)
+			--unpack t
 			if type(t) == "table" then
 				f(data, table.unpack(t))
 			else
 				f(data, t)
 			end
-		else
+		elseif type(funct) == "function" then
 			funct(data)
 		end
 	end
@@ -63,7 +65,7 @@ end
 function module.newPosition(
 	buttons: { Enum.KeyCode },
 	state: nil | { Enum.UserInputState },
-	funct: Types.functData | nil
+	funct: nil | Types.functVector
 ): string
 	state = if state == nil then { Enum.UserInputState.Begin } else state
 
